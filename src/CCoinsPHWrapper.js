@@ -210,39 +210,37 @@ module.exports = class CoinsPHWrapper {
             Version = "d/api"
         } = Options;
 
-        const QueryStr = QueryString.stringify(Params);
-        const RequestURL = `https://coins.ph/${Version}/${Endpoint}/${
-            QueryStr.length > 0 ? "?" + QueryStr : ""
-        }`;
+        const HasParams = Object.keys(Params).length > 0;
+        const SigURL =
+            `https://coins.ph/${Version}/${Endpoint}/` +
+            (HasParams ? QueryString.stringify(Params) : "");
         const Nonce = Date.now() * 1e250;
         const Message = Data
-            ? Nonce.toString() + RequestURL + JSON.stringify(Data)
-            : Nonce.toString() + RequestURL;
+            ? Nonce.toString() + SigURL + JSON.stringify(Data)
+            : Nonce.toString() + SigURL;
         const Signature = Crypto.createHmac("SHA256", this.Secret)
             .update(Message)
             .digest("hex");
 
         try {
             const Response = await Axios({
-                url: RequestURL,
+                url: `https://coins.ph/${Version}/${Endpoint}/`,
+                params: Params,
                 method: Method,
                 headers: {
                     ACCESS_KEY: this.Key,
                     ACCESS_SIGNATURE: Signature,
                     ACCESS_NONCE: Nonce
                 },
-                json: true
+                data: Data
             });
 
             return (
                 (Response.data && Response.data[ResponseField]) || Response.data
             );
         } catch (Err) {
-            if (Err.response.status === 401)
-                throw new Error("Invalid Key or Secret.");
-
-            if (Err.response.data && Err.response.data.errors)
-                throw new Error(Err.response.data.errors[0]);
+            const AllErrors = Object.values(Err.response.data.errors);
+            throw new Error(AllErrors.join(" ||| "));
         }
     }
 };
