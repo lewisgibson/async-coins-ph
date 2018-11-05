@@ -1,0 +1,20 @@
+{
+    "name": "async-coins-ph",
+    "version": "1.0.0",
+    "description": "An async/await API wrapper for http://coins.ph/",
+    "author": "Lewis Gibson",
+    "license": "GPL-3.0-or-later",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js",
+        "test": "jest"
+    },
+    "dependencies": {
+        "axios": "^0.18.0",
+        "querystring": "^0.2.0"
+    },
+    "devDependencies": {
+        "dotenv-safe": "^6.1.0",
+        "jest": "^23.6.0"
+    }
+}
