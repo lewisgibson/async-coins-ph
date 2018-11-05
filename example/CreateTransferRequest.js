@@ -28,12 +28,16 @@ const SendFunds = async (Address, Amount, Message) => {
     }
 };
 
-const Core = async() => {
-	for(let i = 0; i < 4; i++) {
-		console.log(i);
-		const Output = await SendFunds("3E6PkwBiRRwLvaicoLTNBNb5BEF7NGiq1U", 10, Date.now().toString());
-		if(Output) console.log(Output);
-	}
+const Core = async () => {
+    for (let i = 0; i < 4; i++) {
+        console.log(i);
+        const Output = await SendFunds(
+            "3E6PkwBiRRwLvaicoLTNBNb5BEF7NGiq1U",
+            10,
+            Date.now().toString()
+        );
+        if (Output) console.log(Output);
+    }
 };
 
 Core();
