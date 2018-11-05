@@ -1,6 +1,6 @@
 {
     "name": "async-coins-ph",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "description": "An async/await API wrapper for http://coins.ph/",
     "author": "Lewis Gibson",
     "license": "GPL-3.0-or-later",
